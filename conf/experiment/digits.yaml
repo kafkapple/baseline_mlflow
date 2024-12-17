@@ -1,0 +1,26 @@
+name: digits
+
+dataset:
+  name: digits
+  split:
+    validation_size: 0.2
+    random_state: 42
+    stratify: true
+
+metrics:
+  names:
+    - accuracy
+    - precision
+    - recall
+    - f1
+  average: macro
+  optimization:
+    accuracy: maximize
+    precision: maximize
+    recall: maximize
+    f1: maximize
+
+environment:
+  seed: 42
+  device: cpu
+  num_workers: 4 

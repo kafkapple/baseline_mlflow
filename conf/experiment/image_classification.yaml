@@ -1,0 +1,38 @@
+name: image_classification
+
+# 평가 메트릭 설정
+metrics:
+  names:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - loss
+  average: macro
+  optimization:
+    accuracy: maximize
+    precision: maximize
+    recall: maximize
+    f1: maximize
+    loss: minimize
+
+# 데이터셋 설정
+dataset:
+  name: custom
+  image:
+    data_dir: ${paths.data_dir}
+    train_dir: train
+    test_dir: test
+    meta_file: meta.csv
+    id_col: ID
+    target_col: target
+  
+  image_preprocessing:
+    target_size: 224
+    feature_extractor: resnet
+
+# 실험 환경 설정
+environment:
+  seed: 42
+  device: cuda
+  num_workers: 4

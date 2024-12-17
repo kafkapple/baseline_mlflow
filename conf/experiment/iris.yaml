@@ -1,0 +1,29 @@
+name: iris
+
+# 데이터셋 설정
+dataset:
+  name: iris
+  split:
+    validation_size: 0.2
+    random_state: 42
+    stratify: true
+
+# 평가 메트릭 설정
+metrics:
+  names:
+    - accuracy
+    - precision
+    - recall
+    - f1
+  average: macro
+  optimization:
+    accuracy: maximize
+    precision: maximize
+    recall: maximize
+    f1: maximize
+
+# 실험 환경 설정
+environment:
+  seed: 42
+  device: cpu
+  num_workers: 4 

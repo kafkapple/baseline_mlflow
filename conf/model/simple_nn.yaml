@@ -1,0 +1,21 @@
+name: simple_nn
+params:
+  input_size: 10
+  random_state: 42
+  max_epochs: 10
+
+sweep:
+  hidden_size:
+    type: int
+    low: 8
+    high: 128
+    step: 8
+  learning_rate:
+    type: float
+    low: 0.0001
+    high: 0.1
+    log: true
+  batch_size:
+    - 16
+    - 32
+    - 64 

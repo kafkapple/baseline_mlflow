@@ -1,0 +1,62 @@
+defaults:
+  - model: random_forest
+  - experiment: image_classification
+  - override hydra/job_logging: disabled
+
+# 실행모드. train, sweep
+mode: sweep
+
+# 하이퍼파라미터 탐색 설정; mode sweep 일 때 사용
+search:
+  method: tpe
+  n_trials: 3
+  threshold: 0.85
+  objective:
+    metric: f1
+    direction: maximize
+
+# 프로젝트 루트 경로 설정
+paths:
+  root_dir: ???  # Hydra 실행 시 주입
+  data_dir: ${paths.root_dir}/data
+  mlruns_dir: ${paths.root_dir}/mlruns
+  artifacts_dir: ${paths.root_dir}/mlruns/artifacts
+
+mlflow:
+  tracking_uri: sqlite:///${paths.root_dir}/mlruns.db
+  port: 5000
+  host: 127.0.0.1
+  artifact_location: file://${paths.root_dir}/mlruns/artifacts
+  experiment_name: sweep_experiment
+  reset_db: false
+  start_server: true
+  keep_server: true
+  wait_for_ui: 15
+  auto_log:
+    enabled: true
+    sklearn:
+      enabled: true
+      log_input_examples: true
+      log_model_signatures: true
+      log_models: true
+      log_datasets: true
+    pytorch:
+      enabled: true
+      log_every_n_epoch: 1
+      log_every_n_step: 50
+      log_models: true
+  ui_url: "http://${mlflow.host}:${mlflow.port}"
+
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+  sweep:
+    dir: .
+    subdir: mlruns/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  job:
+    chdir: true
+
+debug:
+  enabled: true

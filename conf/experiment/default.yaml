@@ -1,0 +1,53 @@
+name: default
+
+# 평가 메트릭 설정
+metrics:
+  names:
+    - accuracy
+    - precision
+    - recall
+    - f1
+    - loss
+  average: macro
+  optimization:
+    accuracy: maximize
+    precision: maximize
+    recall: maximize
+    f1: maximize
+    loss: minimize
+
+# 데이터셋 설정
+dataset:
+  name: custom
+  
+  # 이미지 데이터셋 설정 (선택)
+  image:
+    data_dir: ${paths.data_dir}
+    train_dir: train
+    test_dir: test
+    meta_file: meta.csv
+    id_col: ID
+    target_col: target
+  
+  # 이미지 전처리 설정
+  image_preprocessing:
+    target_size: [224, 224]
+    feature_extractor: resnet
+  
+  # 데이터 분할 설정
+  split:
+    validation_size: 0.2
+    random_state: 42
+    stratify: true
+
+# 실험 환경 설정
+environment:
+  seed: 42
+  device: cpu
+  num_workers: 4
+
+# 로깅 설정
+logging:
+  log_frequency: 10  # 몇 epoch마다 로깅할지
+  save_model: true
+  save_predictions: false 
